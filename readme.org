@@ -1,0 +1,27 @@
+* Spacesuit
+* Synopsis
+  Minimal single-file testing lib
+* Usage
+  https://github.com/kidd/spacesuit.lua/blob/master/spacesuit.lua#L99-L145
+* Motivation
+  There are quite a few other testing libs for lua, and I'm usually in
+  favor of contributing before forking another 80% solution.
+
+  While writting some minimal tests with assert, I started to write
+  assert_equal, then assert_equal_rec, etc... And saw that I was
+  basically rewriting busted. Then I decided to rewrite a minimal part
+  of busted that doesn't include outputters, or compatibility for
+  windows, or anything. also, not so much syntax sugar (I'm not a big
+  fan of rspec syntax)
+
+  So playing with wrappers and metatables I arrived to an
+  implementation of spies that is very similar to what luassert
+  offers. but without the entanglement with any other lib.
+
+  It has bugs for sure (nils are not treated properly yet), but was a
+  nice learning exercise.
+
+* Author
+  Raimon Grau <raimonster@gmail.com>
+* License
+  GPL3
