@@ -96,6 +96,14 @@ local make_spy = function (m, fname)
       __index = sp})
 end
 
+local stub = function (m, fname, f)
+  local old = m[fname]
+  m[fname] = setmetatable(
+    {clean = function () m[fname] = old end },
+    { __call = function(t, ...) return f(...) end,
+      __index = f})
+end
+
 -- TESTS
 -- testing assert raise
 assert_raise(function() error() end)
@@ -142,6 +150,12 @@ assert(m.foo.called_with(1,2).and_returns_with(3))
 -- cleaning spy
 m.foo.clean()
 assert_raise(function() m.foo.called_with(1,2).and_returns_with(3) end)
+assert(m.foo(4,3) == 7)
+
+stub(m, 'foo', function() return 42 end)
+assert(m.foo(333) == 42)
+assert_raise(m.foo(333,33) == 44)
+m.foo.clean()
 assert(m.foo(4,3) == 7)
 
 return {
